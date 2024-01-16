@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.MultiValueMapAdapter;
 
@@ -23,6 +24,7 @@ import java.util.*;
 
 import static com.mundackal.UserService.mapper.UserMapper.UserToUserResponseDTOMapper;
 
+@Service
 public class AuthService {
     private SessionRepository sessionRepository;
     private UserRepository userRepository;
@@ -56,7 +58,7 @@ public class AuthService {
     }
     public ResponseEntity<UserResponseDTO> login(String email,String password) throws UserNotFoundException, PassswordNotMatchingException {
         User user = userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("No User found with email "+email));
-        if(!bCryptPasswordEncoder.matches(user.getPassword(), password)){
+        if(!bCryptPasswordEncoder.matches( password,user.getPassword())){
             throw new PassswordNotMatchingException("Password Doesn't Match");
         }
         Session session = new Session();

@@ -2,6 +2,7 @@ package com.mundackal.UserService.controller;
 
 import com.mundackal.UserService.dto.LoginRequestDTO;
 import com.mundackal.UserService.dto.UserResponseDTO;
+import com.mundackal.UserService.dto.UserSignUpRequest;
 import com.mundackal.UserService.exception.InvalidTokenException;
 import com.mundackal.UserService.exception.PassswordNotMatchingException;
 import com.mundackal.UserService.exception.SessionNotFoundException;
@@ -23,6 +24,10 @@ public class AuthController {
 
     private AuthService authService;
 
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) throws UserNotFoundException, PassswordNotMatchingException {
         return new ResponseEntity(authService.login(loginRequestDTO.getEmail(),loginRequestDTO.getPassword()), HttpStatus.OK);
@@ -37,6 +42,11 @@ public class AuthController {
     @PostMapping("/validate")
     public ResponseEntity<SessionStatus> validate(@RequestHeader("token")String token,UUID id) throws InvalidTokenException {
         return new ResponseEntity(authService.validate(token,id),HttpStatus.OK);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<UserResponseDTO> signUp(@RequestBody UserSignUpRequest userSignUpRequest){
+        return authService.signup(userSignUpRequest.getEmail(),userSignUpRequest.getPassword());
     }
 
     //Test API's
