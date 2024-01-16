@@ -2,7 +2,9 @@ package com.mundackal.UserService.service;
 
 import com.mundackal.UserService.model.Role;
 import com.mundackal.UserService.repo.RoleRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleService {
     private RoleRepository roleRepository;
 
