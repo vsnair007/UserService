@@ -4,6 +4,7 @@ import com.mundackal.UserService.exception.SessionNotFoundException;
 import com.mundackal.UserService.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,5 +17,10 @@ public class GlobalAdvice {
     @ExceptionHandler(value = SessionNotFoundException.class)
     public ResponseEntity sessionNotFoundHandler(SessionNotFoundException exception){
         return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity unSupportedRequestExceptionHandler(HttpRequestMethodNotSupportedException httpRequestMethodNotSupportedException){
+        return new ResponseEntity("Unsupported HTTP Method",HttpStatus.METHOD_NOT_ALLOWED);
     }
 }

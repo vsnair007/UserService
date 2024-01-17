@@ -53,6 +53,7 @@ public class AuthService {
     }
     public void logout(String token, UUID userId) throws SessionNotFoundException {
         Session session = sessionRepository.findByTokenAndUser_Id(token, userId).orElseThrow(()->new SessionNotFoundException("No Session with token("+token+") and user id("+userId+")"));
+        session.setToken("");
         session.setStatus(SessionStatus.INACTIVE);
         sessionRepository.save(session);
     }
