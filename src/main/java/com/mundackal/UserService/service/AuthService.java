@@ -5,6 +5,7 @@ import com.mundackal.UserService.exception.InvalidTokenException;
 import com.mundackal.UserService.exception.PassswordNotMatchingException;
 import com.mundackal.UserService.exception.SessionNotFoundException;
 import com.mundackal.UserService.exception.UserNotFoundException;
+import com.mundackal.UserService.model.Role;
 import com.mundackal.UserService.model.Session;
 import com.mundackal.UserService.model.SessionStatus;
 import com.mundackal.UserService.model.User;
@@ -99,6 +100,13 @@ public class AuthService {
         if(session.isEmpty() || session.get().equals(SessionStatus.INACTIVE) ){
             throw new InvalidTokenException("Token("+token+") is invalid");
         }
+
+//        Jws<Claims> claims = Jwts.parser().build().parseSignedClaims(token);
+//        String email = claims.getPayload().get("email").toString();
+//        Set<Role> roles = (Set<Role>) claims.getPayload().get("roles");
+//        Date createdAt = (Date)claims.getPayload().get("createdAt");
+//        Date expiryAt = (Date) claims.getPayload().get("expiryAt");
+
         return SessionStatus.ACTIVE;
     }
 
